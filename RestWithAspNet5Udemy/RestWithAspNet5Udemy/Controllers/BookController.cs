@@ -8,30 +8,30 @@ namespace RestWithAspNet5Udemy.Controllers
     [ApiVersion("1")]
     [ApiController]
     [Route("api/[controller]/v{version:apiVersion}")]
-    public class PersonController : ControllerBase
+    public class BookController : ControllerBase
     {
         private readonly ILogger<PersonController> _logger;
-        private readonly IPersonBLL _personBll;
+        private readonly IBookBLL _bookBll;
 
-        public PersonController(ILogger<PersonController> logger, IPersonBLL personBll)
+        public BookController(ILogger<PersonController> logger, IBookBLL bookBll)
         {
             _logger = logger;
-            _personBll = personBll;
+            _bookBll = bookBll;
         }
 
         /// <summary>
-        /// Maps GET requests to https://localhost:{port}/api/person
+        /// Maps GET requests to https://localhost:{port}/api/book
         /// Get no parameters for FindAll -> Search All
         /// </summary>
         /// <returns></returns>
         [HttpGet]
         public IActionResult Get()
         {
-            return Ok(_personBll.FindAll());
+            return Ok(_bookBll.FindAll());
         }
 
         /// <summary>
-        /// Maps GET requests to https://localhost:{port}/api/person/{id}
+        /// Maps GET requests to https://localhost:{port}/api/book/{id}
         /// receiving an ID as in the Request Path
         /// Get with parameters for FindById -> Search by ID
         /// </summary>
@@ -40,7 +40,7 @@ namespace RestWithAspNet5Udemy.Controllers
         [HttpGet("{id}")]
         public IActionResult GetById(long id)
         {
-            var person = _personBll.FindById(id);
+            var person = _bookBll.FindById(id);
             
             if (person == null)
                 return NotFound();
@@ -49,37 +49,37 @@ namespace RestWithAspNet5Udemy.Controllers
         }
 
         /// <summary>
-        /// Maps POST requests to https://localhost:{port}/api/person/
+        /// Maps POST requests to https://localhost:{port}/api/book/
         /// [FromBody] consumes the JSON object sent in the request body
         /// </summary>
-        /// <param name="person"></param>
+        /// <param name="book"></param>
         /// <returns></returns>
         [HttpPost]
-        public IActionResult Post([FromBody] Person person)
+        public IActionResult Post([FromBody] Book book)
         {
-            if (person == null)
+            if (book == null)
                 return BadRequest();
 
-            return Ok(_personBll.Create(person));
+            return Ok(_bookBll.Create(book));
         }
 
         /// <summary>
-        /// Maps PUT requests to https://localhost:{port}/api/person/
+        /// Maps PUT requests to https://localhost:{port}/api/book/
         /// [FromBody] consumes the JSON object sent in the request body
         /// </summary>
-        /// <param name="person"></param>
+        /// <param name="book"></param>
         /// <returns></returns>
         [HttpPut]
-        public IActionResult Put([FromBody] Person person)
+        public IActionResult Put([FromBody] Book book)
         {
-            if (person == null)
+            if (book == null)
                 return BadRequest();
 
-            return Ok(_personBll.Update(person));
+            return Ok(_bookBll.Update(book));
         }
 
         /// <summary>
-        /// Maps DELETE requests to https://localhost:{port}/api/person/{id}
+        /// Maps DELETE requests to https://localhost:{port}/api/book/{id}
         /// receiving an ID as in the Request Path
         /// </summary>
         /// <param name="id"></param>
@@ -87,7 +87,7 @@ namespace RestWithAspNet5Udemy.Controllers
         [HttpDelete ("{id}")]
         public IActionResult Delete(long id)
         {
-            _personBll.Delete(id);
+            _bookBll.Delete(id);
 
             return NoContent();
         }
