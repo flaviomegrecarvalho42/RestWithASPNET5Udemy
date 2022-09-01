@@ -52,8 +52,13 @@ namespace RestWithAspNet5Udemy
             //Add Dependency Injection (adiciona a injeção de dependência)
             services.AddScoped<IPersonBLL, PersonBLL>();
             services.AddScoped<IBookBLL, BookBLL>();
-            services.AddScoped<IPersonRepository, PersonRepository>();
-            services.AddScoped<IBookRepository, BookRepository>();
+            
+            //Retirada essas injeções, pois será utilizada a BaseRepository
+            //services.AddScoped<IPersonRepository, PersonRepository>();
+            //services.AddScoped<IBookRepository, BookRepository>();
+            
+            //Adicionando a Injeção de Dependência do BasRepository
+            services.AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

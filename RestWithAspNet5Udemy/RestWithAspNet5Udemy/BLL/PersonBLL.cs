@@ -7,9 +7,9 @@ namespace RestWithAspNet5Udemy.BLL
 {
     public class PersonBLL : IPersonBLL
     {
-        private readonly IPersonRepository _repository;
+        private readonly IBaseRepository<Person> _repository;
 
-        public PersonBLL(IPersonRepository repository)
+        public PersonBLL(IBaseRepository<Person> repository)
         {
             _repository = repository;
         }

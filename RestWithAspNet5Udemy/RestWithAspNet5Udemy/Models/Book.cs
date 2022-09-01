@@ -1,14 +1,12 @@
-﻿using System;
+﻿using RestWithAspNet5Udemy.Models.Base;
+using System;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace RestWithAspNet5Udemy.Models
 {
     [Table("books")]
-    public class Book
+    public class Book : BaseEntity
     {
-        [Column("id")]
-        public long Id { get; set; }
-
         [Column("title")]
         public string Title { get; set; }
 

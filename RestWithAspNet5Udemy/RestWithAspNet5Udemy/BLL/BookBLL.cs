@@ -7,9 +7,9 @@ namespace RestWithAspNet5Udemy.BLL
 {
     public class BookBLL : IBookBLL
     {
-        private readonly IBookRepository _repository;
+        private readonly IBaseRepository<Book> _repository;
 
-        public BookBLL(IBookRepository repository)
+        public BookBLL(IBaseRepository<Book> repository)
         {
             _repository = repository;
         }
