@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using RestWithAspNet5Udemy.Models;
 using RestWithAspNet5Udemy.BLL.Interfaces;
+using RestWithAspNet5Udemy.Data.DTO;
 
 namespace RestWithAspNet5Udemy.Controllers
 {
@@ -40,12 +40,12 @@ namespace RestWithAspNet5Udemy.Controllers
         [HttpGet("{id}")]
         public IActionResult GetById(long id)
         {
-            var person = _personBll.FindById(id);
+            var personDto = _personBll.FindById(id);
             
-            if (person == null)
+            if (personDto == null)
                 return NotFound();
             
-            return Ok(person);
+            return Ok(personDto);
         }
 
         /// <summary>
@@ -55,12 +55,12 @@ namespace RestWithAspNet5Udemy.Controllers
         /// <param name="person"></param>
         /// <returns></returns>
         [HttpPost]
-        public IActionResult Post([FromBody] Person person)
+        public IActionResult Post([FromBody] PersonDto personDto)
         {
-            if (person == null)
+            if (personDto == null)
                 return BadRequest();
 
-            return Ok(_personBll.Create(person));
+            return Ok(_personBll.Create(personDto));
         }
 
         /// <summary>
@@ -70,12 +70,12 @@ namespace RestWithAspNet5Udemy.Controllers
         /// <param name="person"></param>
         /// <returns></returns>
         [HttpPut]
-        public IActionResult Put([FromBody] Person person)
+        public IActionResult Put([FromBody] PersonDto personDto)
         {
-            if (person == null)
+            if (personDto == null)
                 return BadRequest();
 
-            return Ok(_personBll.Update(person));
+            return Ok(_personBll.Update(personDto));
         }
 
         /// <summary>

@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Net.Http.Headers;
 using MySql.Data.MySqlClient;
 using RestWithAspNet5Udemy.BLL;
 using RestWithAspNet5Udemy.BLL.Interfaces;
@@ -45,6 +46,14 @@ namespace RestWithAspNet5Udemy
             {
                 MigrateDatabase(connection);
             }
+
+            //Implementation Content Negociation
+            services.AddMvc(options =>
+            {
+                options.RespectBrowserAcceptHeader = true;
+                options.FormatterMappings.SetMediaTypeMappingForFormat("xml", MediaTypeHeaderValue.Parse("application/xml"));
+                options.FormatterMappings.SetMediaTypeMappingForFormat("json", MediaTypeHeaderValue.Parse("application/json"));
+            }).AddXmlSerializerFormatters();
 
             //Add Versoning API
             services.AddApiVersioning();

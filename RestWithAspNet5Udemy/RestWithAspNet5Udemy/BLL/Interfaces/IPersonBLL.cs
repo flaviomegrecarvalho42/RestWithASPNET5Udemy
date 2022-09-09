@@ -1,4 +1,4 @@
-﻿using RestWithAspNet5Udemy.Models;
+﻿using RestWithAspNet5Udemy.Data.DTO;
 using System.Collections.Generic;
 
 namespace RestWithAspNet5Udemy.BLL.Interfaces
@@ -9,28 +9,28 @@ namespace RestWithAspNet5Udemy.BLL.Interfaces
         /// Method responsible for returning all people
         /// </summary>
         /// <returns></returns>
-        List<Person> FindAll();
+        List<PersonDto> FindAll();
 
         /// <summary>
         /// Method responsible for returning one person by ID
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        Person FindById(long id);
+        PersonDto FindById(long id);
 
         /// <summary>
         /// Method responsible to crete one new person
         /// </summary>
         /// <param name="person"></param>
         /// <returns></returns>
-        Person Create(Person person);
+        PersonDto Create(PersonDto person);
 
         /// <summary>
         /// Method responsible for updating one person
         /// </summary>
         /// <param name="person"></param>
         /// <returns></returns>
-        Person Update(Person person);
+        PersonDto Update(PersonDto person);
 
         /// <summary>
         /// Method responsible for deleting a person from an ID

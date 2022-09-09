@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using RestWithAspNet5Udemy.Models;
 using RestWithAspNet5Udemy.BLL.Interfaces;
+using RestWithAspNet5Udemy.Data.DTO;
 
 namespace RestWithAspNet5Udemy.Controllers
 {
@@ -55,12 +55,12 @@ namespace RestWithAspNet5Udemy.Controllers
         /// <param name="book"></param>
         /// <returns></returns>
         [HttpPost]
-        public IActionResult Post([FromBody] Book book)
+        public IActionResult Post([FromBody] BookDto bookDto)
         {
-            if (book == null)
+            if (bookDto == null)
                 return BadRequest();
 
-            return Ok(_bookBll.Create(book));
+            return Ok(_bookBll.Create(bookDto));
         }
 
         /// <summary>
@@ -70,12 +70,12 @@ namespace RestWithAspNet5Udemy.Controllers
         /// <param name="book"></param>
         /// <returns></returns>
         [HttpPut]
-        public IActionResult Put([FromBody] Book book)
+        public IActionResult Put([FromBody] BookDto bookDto)
         {
-            if (book == null)
+            if (bookDto == null)
                 return BadRequest();
 
-            return Ok(_bookBll.Update(book));
+            return Ok(_bookBll.Update(bookDto));
         }
 
         /// <summary>

@@ -1,4 +1,6 @@
 ﻿using RestWithAspNet5Udemy.BLL.Interfaces;
+using RestWithAspNet5Udemy.Data.DTO;
+using RestWithAspNet5Udemy.Data.Mapper;
 using RestWithAspNet5Udemy.Models;
 using RestWithAspNet5Udemy.Repositories.Interfaces;
 using System.Collections.Generic;
@@ -8,30 +10,38 @@ namespace RestWithAspNet5Udemy.BLL
     public class BookBLL : IBookBLL
     {
         private readonly IBaseRepository<Book> _repository;
+        private readonly BookMapper _mapper;
 
         public BookBLL(IBaseRepository<Book> repository)
         {
             _repository = repository;
+            _mapper = new BookMapper();
         }
 
-        public List<Book> FindAll()
+        public List<BookDto> FindAll()
         {
-            return _repository.FindAll();
+            return _mapper.Parse(_repository.FindAll());
         }
 
-        public Book FindById(long id)
+        public BookDto FindById(long id)
         {
-            return _repository.FindById(id);
+            return _mapper.Parse(_repository.FindById(id));
         }
 
-        public Book Create(Book book)
+        public BookDto Create(BookDto bookDto)
         {
-            return _repository.Create(book);
+            var bookEntity = _mapper.Parse(bookDto);
+            bookEntity = _repository.Create(bookEntity);
+
+            return _mapper.Parse(bookEntity);
         }
 
-        public Book Update(Book book)
+        public BookDto Update(BookDto bookDto)
         {
-            return _repository.Update(book);
+            var bookEntity = _mapper.Parse(bookDto);
+            bookEntity = _repository.Update(bookEntity);
+
+            return _mapper.Parse(bookEntity);
         }
 
         public void Delete(long id)
