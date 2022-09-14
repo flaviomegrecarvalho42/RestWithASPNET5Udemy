@@ -39,6 +39,14 @@ namespace RestWithAspNet5Udemy
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            //Add CORS
+            services.AddCors(options => options.AddDefaultPolicy(builder =>
+            {
+                builder.AllowAnyOrigin()
+                       .AllowAnyMethod()
+                       .AllowAnyHeader();
+            }));
+
             services.AddControllers();
 
             //Add DataBase Connection (adicionando a conexão com o Banco de Dados)
@@ -104,6 +112,9 @@ namespace RestWithAspNet5Udemy
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            // Enabling the use CORS
+            app.UseCors();
 
             //Generate a Json with a documentation
             app.UseSwagger();
