@@ -1,8 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using RestWithAspNet5Udemy.BLL.Interfaces;
 using RestWithAspNet5Udemy.Data.DTO;
 using RestWithAspNet5Udemy.Hypermedia.Filters;
+using System.Collections.Generic;
 
 namespace RestWithAspNet5Udemy.Controllers
 {
@@ -26,6 +28,10 @@ namespace RestWithAspNet5Udemy.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<PersonDto>))]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [TypeFilter(typeof(HyperMediaFilter))]
         public IActionResult Get()
         {
@@ -40,6 +46,10 @@ namespace RestWithAspNet5Udemy.Controllers
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpGet("{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(PersonDto))]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [TypeFilter(typeof(HyperMediaFilter))]
         public IActionResult GetById(long id)
         {
@@ -58,13 +68,16 @@ namespace RestWithAspNet5Udemy.Controllers
         /// <param name="person"></param>
         /// <returns></returns>
         [HttpPost]
+        [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(PersonDto))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [TypeFilter(typeof(HyperMediaFilter))]
         public IActionResult Post([FromBody] PersonDto personDto)
         {
             if (personDto == null)
                 return BadRequest();
 
-            return Ok(_personBll.Create(personDto));
+            return Created("person", _personBll.Create(personDto));
         }
 
         /// <summary>
@@ -74,6 +87,9 @@ namespace RestWithAspNet5Udemy.Controllers
         /// <param name="person"></param>
         /// <returns></returns>
         [HttpPut]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(PersonDto))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [TypeFilter(typeof(HyperMediaFilter))]
         public IActionResult Put([FromBody] PersonDto personDto)
         {
@@ -90,6 +106,9 @@ namespace RestWithAspNet5Udemy.Controllers
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpDelete ("{id}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public IActionResult Delete(long id)
         {
             _personBll.Delete(id);

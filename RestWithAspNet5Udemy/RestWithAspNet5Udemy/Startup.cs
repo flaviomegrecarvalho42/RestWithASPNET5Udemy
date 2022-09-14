@@ -1,10 +1,12 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Rewrite;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Net.Http.Headers;
+using Microsoft.OpenApi.Models;
 using MySql.Data.MySqlClient;
 using RestWithAspNet5Udemy.BLL;
 using RestWithAspNet5Udemy.BLL.Interfaces;
@@ -68,6 +70,23 @@ namespace RestWithAspNet5Udemy
             //Add Versoning API
             services.AddApiVersioning();
 
+            //Add Swagger in the API
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1",
+                             new OpenApiInfo
+                             {
+                                 Title = "REST API's Fom 0 to Azure with ASP.NET Core 5 and Docker",
+                                 Version = "v1",
+                                 Description = "API RESTFul developed in course 'REST API's Fom 0 to Azure with ASP.NET Core 5 and Docker'",
+                                 Contact = new OpenApiContact
+                                 {
+                                     Name = "Flavio Carvalho",
+                                     Url = new Uri("https://github.com/flaviomegrecarvalho42")
+                                 }
+                             });
+            });
+
             //Add Dependency Injection (adiciona a injeção de dependência)
             services.AddScoped<IPersonBLL, PersonBLL>();
             services.AddScoped<IBookBLL, BookBLL>();
@@ -85,6 +104,21 @@ namespace RestWithAspNet5Udemy
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            //Generate a Json with a documentation
+            app.UseSwagger();
+
+            //Generata a page HTML
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("v1/swagger.json",
+                                  "REST API's Fom 0 to Azure with ASP.NET Core 5 and Docker - v1");
+            });
+
+            //Configure a swagger page
+            var option = new RewriteOptions();
+            option.AddRedirect("^$", "swagger");
+            app.UseRewriter(option);
 
             app.UseAuthorization();
 
