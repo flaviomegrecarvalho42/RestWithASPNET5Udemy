@@ -8,6 +8,8 @@ using Microsoft.Net.Http.Headers;
 using MySql.Data.MySqlClient;
 using RestWithAspNet5Udemy.BLL;
 using RestWithAspNet5Udemy.BLL.Interfaces;
+using RestWithAspNet5Udemy.Hypermedia.Enricher;
+using RestWithAspNet5Udemy.Hypermedia.Filters;
 using RestWithAspNet5Udemy.Models.Context;
 using RestWithAspNet5Udemy.Repositories;
 using RestWithAspNet5Udemy.Repositories.Interfaces;
@@ -51,9 +53,17 @@ namespace RestWithAspNet5Udemy
             services.AddMvc(options =>
             {
                 options.RespectBrowserAcceptHeader = true;
+
                 options.FormatterMappings.SetMediaTypeMappingForFormat("xml", MediaTypeHeaderValue.Parse("application/xml"));
                 options.FormatterMappings.SetMediaTypeMappingForFormat("json", MediaTypeHeaderValue.Parse("application/json"));
             }).AddXmlSerializerFormatters();
+
+            //Add Hateos
+            var filterOptions = new HyperMediaFilterOptions();
+            filterOptions.ContentResponseEnricherList.Add(new PersonEnricher());
+            filterOptions.ContentResponseEnricherList.Add(new BookEnricher());
+
+            services.AddSingleton(filterOptions);
 
             //Add Versoning API
             services.AddApiVersioning();
@@ -81,6 +91,7 @@ namespace RestWithAspNet5Udemy
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapControllerRoute("DefaultApi", "{controller=values}/{id?}");
             });
         }
 

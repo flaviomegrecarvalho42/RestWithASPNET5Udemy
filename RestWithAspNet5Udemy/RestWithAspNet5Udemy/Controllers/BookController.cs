@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Logging;
 using RestWithAspNet5Udemy.BLL.Interfaces;
 using RestWithAspNet5Udemy.Data.DTO;
+using RestWithAspNet5Udemy.Hypermedia.Filters;
 
 namespace RestWithAspNet5Udemy.Controllers
 {
@@ -25,6 +26,7 @@ namespace RestWithAspNet5Udemy.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
+        [TypeFilter(typeof(HyperMediaFilter))]
         public IActionResult Get()
         {
             return Ok(_bookBll.FindAll());
@@ -38,6 +40,7 @@ namespace RestWithAspNet5Udemy.Controllers
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpGet("{id}")]
+        [TypeFilter(typeof(HyperMediaFilter))]
         public IActionResult GetById(long id)
         {
             var person = _bookBll.FindById(id);
@@ -55,6 +58,7 @@ namespace RestWithAspNet5Udemy.Controllers
         /// <param name="book"></param>
         /// <returns></returns>
         [HttpPost]
+        [TypeFilter(typeof(HyperMediaFilter))]
         public IActionResult Post([FromBody] BookDto bookDto)
         {
             if (bookDto == null)
@@ -70,6 +74,7 @@ namespace RestWithAspNet5Udemy.Controllers
         /// <param name="book"></param>
         /// <returns></returns>
         [HttpPut]
+        [TypeFilter(typeof(HyperMediaFilter))]
         public IActionResult Put([FromBody] BookDto bookDto)
         {
             if (bookDto == null)

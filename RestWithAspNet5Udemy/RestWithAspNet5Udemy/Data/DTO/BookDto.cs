@@ -1,8 +1,11 @@
-﻿using System;
+﻿using RestWithAspNet5Udemy.Hypermedia;
+using RestWithAspNet5Udemy.Hypermedia.Interfaces;
+using System;
+using System.Collections.Generic;
 
 namespace RestWithAspNet5Udemy.Data.DTO
 {
-    public class BookDto
+    public class BookDto : ISupportHyperMedia
     {
         public long Id { get; set; }
 
@@ -13,5 +16,7 @@ namespace RestWithAspNet5Udemy.Data.DTO
         public decimal Price { get; set; }
 
         public DateTime LaunchDate { get; set; }
+
+        public List<HyperMediaLink> Links { get; set; } = new List<HyperMediaLink>();
     }
 }
