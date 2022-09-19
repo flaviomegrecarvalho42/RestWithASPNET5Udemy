@@ -1,3 +1,5 @@
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Rewrite;
@@ -5,19 +7,25 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.Net.Http.Headers;
 using Microsoft.OpenApi.Models;
 using MySql.Data.MySqlClient;
 using RestWithAspNet5Udemy.BLL;
 using RestWithAspNet5Udemy.BLL.Interfaces;
+using RestWithAspNet5Udemy.Configurations;
 using RestWithAspNet5Udemy.Hypermedia.Enricher;
 using RestWithAspNet5Udemy.Hypermedia.Filters;
 using RestWithAspNet5Udemy.Models.Context;
 using RestWithAspNet5Udemy.Repositories;
 using RestWithAspNet5Udemy.Repositories.Interfaces;
+using RestWithAspNet5Udemy.Services;
+using RestWithAspNet5Udemy.Services.Interfaces;
 using Serilog;
 using System;
 using System.Collections.Generic;
+using System.Text;
 
 namespace RestWithAspNet5Udemy
 {
@@ -39,6 +47,40 @@ namespace RestWithAspNet5Udemy
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            //Configure the segurity (token)
+            var tokenConfigurations = new TokenConfiguration();
+            new ConfigureFromConfigurationOptions<TokenConfiguration>(
+                Configuration.GetSection("TokenConfiguration"))
+                .Configure(tokenConfigurations);
+            services.AddSingleton(tokenConfigurations);
+
+            //Configure the parameters authentication
+            services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            }).AddJwtBearer(options =>
+                {
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuer = true,
+                        ValidateAudience = true,
+                        ValidateLifetime = true,
+                        ValidateIssuerSigningKey = true,
+                        ValidIssuer = tokenConfigurations.Issuer,
+                        ValidAudience = tokenConfigurations.Audience,
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(tokenConfigurations.Secret))
+                    };
+                });
+
+            //Configure the parameters authentication
+            services.AddAuthorization(auth =>
+            {
+                auth.AddPolicy("Bearer", new AuthorizationPolicyBuilder()
+                    .AddAuthenticationSchemes(JwtBearerDefaults.AuthenticationScheme)
+                    .RequireAuthenticatedUser().Build());
+            });
+
             //Add CORS
             services.AddCors(options => options.AddDefaultPolicy(builder =>
             {
@@ -98,7 +140,10 @@ namespace RestWithAspNet5Udemy
             //Add Dependency Injection (adiciona a injeção de dependência)
             services.AddScoped<IPersonBLL, PersonBLL>();
             services.AddScoped<IBookBLL, BookBLL>();
+            services.AddScoped<ILoginBLL, LoginBLL>();
             services.AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));
+            services.AddScoped(typeof(IUserRepository), typeof(UserRepository));
+            services.AddTransient<ITokenService, TokenService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
