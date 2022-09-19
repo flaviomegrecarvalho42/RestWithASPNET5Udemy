@@ -17,5 +17,8 @@ namespace RestWithAspNet5Udemy.Models
 
         [Column("gender")]
         public string Gender { get; set; }
+
+        [Column("enabled")]
+        public bool Enabled { get; set; }
     }
 }

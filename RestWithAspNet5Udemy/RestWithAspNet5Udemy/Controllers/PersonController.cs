@@ -101,6 +101,27 @@ namespace RestWithAspNet5Udemy.Controllers
             return Ok(_personBll.Update(personDto));
         }
 
+
+        /// <summary>
+        /// 
+        /// receiving an ID as in the Request Path
+        /// Get with parameters for FindById -> Search by ID
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpPatch("{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(PersonDto))]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [TypeFilter(typeof(HyperMediaFilter))]
+        public IActionResult Patch(long id)
+        {
+            var personDto = _personBll.Disable(id);
+
+            return Ok(personDto);
+        }
+
         /// <summary>
         /// Maps DELETE requests to https://localhost:{port}/api/person/{id}
         /// receiving an ID as in the Request Path

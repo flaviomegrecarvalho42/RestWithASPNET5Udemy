@@ -10,7 +10,7 @@ namespace RestWithAspNet5Udemy.Repositories
 {
     public class BaseRepository<T> : IBaseRepository<T> where T : BaseEntity
     {
-        private readonly MySQLContext _context;
+        protected MySQLContext _context;
         private DbSet<T> _dataSet;
 
         public BaseRepository(MySQLContext context)

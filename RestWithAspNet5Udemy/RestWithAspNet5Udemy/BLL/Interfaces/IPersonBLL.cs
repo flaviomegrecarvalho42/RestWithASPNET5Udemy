@@ -33,6 +33,13 @@ namespace RestWithAspNet5Udemy.BLL.Interfaces
         PersonDto Update(PersonDto person);
 
         /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        PersonDto Disable(long id);
+
+        /// <summary>
         /// Method responsible for deleting a person from an ID
         /// </summary>
         /// <param name="id"></param>

@@ -142,7 +142,8 @@ namespace RestWithAspNet5Udemy
             services.AddScoped<IBookBLL, BookBLL>();
             services.AddScoped<ILoginBLL, LoginBLL>();
             services.AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));
-            services.AddScoped(typeof(IUserRepository), typeof(UserRepository));
+            services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IPersonRepository, PersonRepository>();
             services.AddTransient<ITokenService, TokenService>();
         }
 

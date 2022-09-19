@@ -38,7 +38,15 @@ namespace RestWithAspNet5Udemy.Hypermedia.Enricher
                 Rel = RelationType.self,
                 Type = ResponseTypeFormat.DefaultPut
             });
-            
+
+            content.Links.Add(new HyperMediaLink()
+            {
+                Action = HttpActionVerb.PATCH,
+                Href = link,
+                Rel = RelationType.self,
+                Type = ResponseTypeFormat.DefaultPatch
+            });
+
             content.Links.Add(new HyperMediaLink()
             {
                 Action = HttpActionVerb.DELETE,

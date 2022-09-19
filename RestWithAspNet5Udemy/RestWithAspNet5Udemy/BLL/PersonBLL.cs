@@ -9,10 +9,10 @@ namespace RestWithAspNet5Udemy.BLL
 {
     public class PersonBLL : IPersonBLL
     {
-        private readonly IBaseRepository<Person> _repository;
+        private readonly IPersonRepository _repository;
         private readonly PersonMapper _mapper;
 
-        public PersonBLL(IBaseRepository<Person> repository)
+        public PersonBLL(IPersonRepository repository)
         {
             _repository = repository;
             _mapper = new PersonMapper();
@@ -40,6 +40,13 @@ namespace RestWithAspNet5Udemy.BLL
         {
             var personEntity = _mapper.Parse(personDto);
             personEntity = _repository.Update(personEntity);
+
+            return _mapper.Parse(personEntity);
+        }
+
+        public PersonDto Disable(long id)
+        {
+            var personEntity = _repository.Disable(id);
 
             return _mapper.Parse(personEntity);
         }
