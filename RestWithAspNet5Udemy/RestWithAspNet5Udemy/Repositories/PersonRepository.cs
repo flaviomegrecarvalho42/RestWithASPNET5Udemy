@@ -2,6 +2,7 @@
 using RestWithAspNet5Udemy.Models.Context;
 using RestWithAspNet5Udemy.Repositories.Interfaces;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace RestWithAspNet5Udemy.Repositories
@@ -34,6 +35,25 @@ namespace RestWithAspNet5Udemy.Repositories
             }
 
             return user;
+        }
+
+        public List<Person> FindByName(string firstName, string lastName)
+        {
+            if (!string.IsNullOrWhiteSpace(firstName) && !string.IsNullOrWhiteSpace(lastName))
+            {
+                return _context.Persons.Where(p => p.FirstName.Contains(firstName) &&
+                                                   p.LastName.Contains(lastName)).ToList();
+            }
+            else if (string.IsNullOrWhiteSpace(firstName) && !string.IsNullOrWhiteSpace(lastName))
+            {
+                return _context.Persons.Where(p => p.LastName.Contains(lastName)).ToList();
+            }
+            else if (!string.IsNullOrWhiteSpace(firstName) && string.IsNullOrWhiteSpace(lastName))
+            {
+                return _context.Persons.Where(p => p.FirstName.Contains(firstName)).ToList();
+            }
+
+            return null;
         }
     }
 }

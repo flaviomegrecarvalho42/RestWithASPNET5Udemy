@@ -60,6 +60,5 @@ namespace RestWithAspNet5Udemy.Controllers
 
             return NoContent();
         }
-
     }
 }

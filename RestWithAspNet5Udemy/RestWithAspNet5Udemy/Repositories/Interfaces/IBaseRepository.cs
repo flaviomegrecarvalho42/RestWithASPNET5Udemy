@@ -44,5 +44,18 @@ namespace RestWithAspNet5Udemy.Repositories.Interfaces
         /// <param name="id"></param>
         /// <returns></returns>
         bool Exists(long id);
+
+        /// <summary>
+        /// Method responsible for returning all people
+        /// </summary>
+        /// <returns></returns>
+        List<T> FindWithPagedSearch(string query);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="query"></param>
+        /// <returns></returns>
+        int GetCount(string query);
     }
 }

@@ -1,4 +1,5 @@
 ﻿using RestWithAspNet5Udemy.Data.DTO;
+using RestWithAspNet5Udemy.Hypermedia.Utils;
 using System.Collections.Generic;
 
 namespace RestWithAspNet5Udemy.BLL.Interfaces
@@ -17,6 +18,20 @@ namespace RestWithAspNet5Udemy.BLL.Interfaces
         /// <param name="id"></param>
         /// <returns></returns>
         PersonDto FindById(long id);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="firstName"></param>
+        /// <param name="lastName"></param>
+        /// <returns></returns>
+        List<PersonDto> FindByName(string firstName, string lastName);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        PagedSearchDto<PersonDto> FindWithPagedSearch(string name, string sortDirection, int pageSize, int page);
 
         /// <summary>
         /// Method responsible to crete one new person

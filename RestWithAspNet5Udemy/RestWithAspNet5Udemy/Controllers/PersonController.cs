@@ -64,6 +64,48 @@ namespace RestWithAspNet5Udemy.Controllers
         }
 
         /// <summary>
+        /// Maps GET requests to https://localhost:{port}/api/person/{id}
+        /// receiving an ID as in the Request Path
+        /// Get with parameters for FindById -> Search by ID
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpGet("byName")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(PersonDto))]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [TypeFilter(typeof(HyperMediaFilter))]
+        public IActionResult GetByName([FromQuery] string firstName, string lastName)
+        {
+            var personDto = _personBll.FindByName(firstName, lastName);
+
+            if (personDto == null)
+                return NotFound();
+
+            return Ok(personDto);
+        }
+
+        /// <summary>
+        /// Maps GET requests to https://localhost:{port}/api/person
+        /// Get no parameters for FindAll -> Search All
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet("{sortDirection}/{pageSize}/{page}")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<PersonDto>))]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [TypeFilter(typeof(HyperMediaFilter))]
+        public IActionResult GetWithPagedSearch([FromQuery] string name,
+                                                            string sortDirection,
+                                                            int pageSize,
+                                                            int page)
+        {
+            return Ok(_personBll.FindWithPagedSearch(name, sortDirection, pageSize, page));
+        }
+
+        /// <summary>
         /// Maps POST requests to https://localhost:{port}/api/person/
         /// [FromBody] consumes the JSON object sent in the request body
         /// </summary>
@@ -100,7 +142,6 @@ namespace RestWithAspNet5Udemy.Controllers
 
             return Ok(_personBll.Update(personDto));
         }
-
 
         /// <summary>
         /// 
