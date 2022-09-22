@@ -1,5 +1,4 @@
 ﻿using RestWithAspNet5Udemy.Data.DTO;
-using RestWithAspNet5Udemy.Models;
 using System.Collections.Generic;
 
 namespace RestWithAspNet5Udemy.BLL.Interfaces

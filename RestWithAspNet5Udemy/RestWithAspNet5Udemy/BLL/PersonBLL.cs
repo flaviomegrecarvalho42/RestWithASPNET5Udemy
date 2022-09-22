@@ -2,7 +2,6 @@
 using RestWithAspNet5Udemy.Data.DTO;
 using RestWithAspNet5Udemy.Data.Mapper;
 using RestWithAspNet5Udemy.Hypermedia.Utils;
-using RestWithAspNet5Udemy.Models;
 using RestWithAspNet5Udemy.Repositories.Interfaces;
 using System.Collections.Generic;
 
