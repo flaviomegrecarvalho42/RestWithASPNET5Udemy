@@ -79,7 +79,7 @@ namespace RestWithAspNet5Udemy.Controllers
                 HttpContext.Response.ContentType = $"application/{Path.GetExtension(fileName).Replace(".", "")}";
                 HttpContext.Response.Headers.Add("content-length", buffer.Length.ToString());
 
-                await HttpContext.Response.Body.WriteAsync(buffer, 0, buffer.Length);
+                await HttpContext.Response.Body.WriteAsync(buffer);
             }
 
             return new ContentResult();
