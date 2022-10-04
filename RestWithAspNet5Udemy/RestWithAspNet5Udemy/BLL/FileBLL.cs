@@ -22,6 +22,12 @@ namespace RestWithAspNet5Udemy.BLL
         public byte[] GetFile(string fileName)
         {
             var filePath = _basePath + fileName;
+
+            if (!File.Exists(filePath))
+            {
+                throw new Exception("Arquivo não encontrado");
+            }
+
             return File.ReadAllBytes(filePath);
         }
 
@@ -41,24 +47,16 @@ namespace RestWithAspNet5Udemy.BLL
             var fileType = Path.GetExtension(file.FileName);
             var baseUrl = _context.HttpContext.Request.Host;
 
-            if (fileType.ToLower() == ".pdf" || fileType.ToLower() == ".jpg" ||
-                fileType.ToLower() == ".png" || fileType.ToLower() == ".jpeg")
-            {
-                var documentName = Path.GetFileName(file.FileName);
-                
-                if (file != null && file.Length > 0)
-                {
-                    var destination = Path.Combine(_basePath, "", documentName);
-                    fileDetail.DocumentName = documentName;
-                    fileDetail.DocumentType = fileType;
-                    fileDetail.DocumentUrl = Path.Combine(baseUrl + "/api/File/v1" + fileDetail.DocumentName);
+            if (fileType.ToLower() != ".pdf" && fileType.ToLower() != ".jpg" &&
+                fileType.ToLower() != ".png" && fileType.ToLower() != ".jpeg")
+                throw new Exception("Extensão de arquivo não permitida");
 
-                    var stream = new FileStream(destination, FileMode.Create);
-                    await file.CopyToAsync(stream);
-                    stream.Close();
-                    stream.Dispose();
-                }
-            }
+            var documentName = Path.GetFileName(file.FileName);
+
+            if (file == null || file.Length <= 0)
+                throw new Exception("Arquivo vazio");
+
+            fileDetail = await DownloadFile(file, fileDetail, baseUrl, fileType, documentName);
 
             return fileDetail;
         }
@@ -74,7 +72,7 @@ namespace RestWithAspNet5Udemy.BLL
 
             return filesDetail;
         }
-        
+
         private async Task<FileResponseDto> GenerateDownloadFile(string fileName)
         {
             var path = Path.Combine(_basePath, fileName);
@@ -102,6 +100,21 @@ namespace RestWithAspNet5Udemy.BLL
             };
 
             return fileResponseDto;
+        }
+
+        private async Task<FileDetailDto> DownloadFile(IFormFile file, FileDetailDto fileDetail, HostString baseUrl, string fileType, string documentName)
+        {
+            var destination = Path.Combine(_basePath, "", documentName);
+            fileDetail.DocumentName = documentName;
+            fileDetail.DocumentType = fileType;
+            fileDetail.DocumentUrl = Path.Combine(baseUrl + "/api/File/v1" + fileDetail.DocumentName);
+
+            var stream = new FileStream(destination, FileMode.Create);
+            await file.CopyToAsync(stream);
+            stream.Close();
+            stream.Dispose();
+
+            return fileDetail;
         }
     }
 }

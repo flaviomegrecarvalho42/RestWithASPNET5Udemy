@@ -2,6 +2,9 @@
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
+    <DockerComposeProjectPath>..\docker-compose.dcproj</DockerComposeProjectPath>
+    <UserSecretsId>962ba19c-f74c-4654-815d-a7cd91f1258c</UserSecretsId>
+    <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
   </PropertyGroup>
 
   <ItemGroup>
@@ -13,6 +16,7 @@
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="3.1.8" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Formatters.Json" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning" Version="4.1.1" />
+    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.11.1" />
     <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="3.2.0" />
     <PackageReference Include="Serilog" Version="2.10.0" />
     <PackageReference Include="Serilog.AspNetCore" Version="3.4.0" />
@@ -21,6 +25,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="ci\" />
     <Folder Include="UploadFiles\" />
   </ItemGroup>
 
