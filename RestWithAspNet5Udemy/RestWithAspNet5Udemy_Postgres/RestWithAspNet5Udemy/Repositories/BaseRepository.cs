@@ -10,10 +10,10 @@ namespace RestWithAspNet5Udemy.Repositories
 {
     public class BaseRepository<T> : IBaseRepository<T> where T : BaseEntity
     {
-        protected MySQLContext _context;
+        protected PostgreSQLContext _context;
         private DbSet<T> _dataSet;
 
-        public BaseRepository(MySQLContext context)
+        public BaseRepository(PostgreSQLContext context)
         {
             _context = context;
             _dataSet = _context.Set<T>();

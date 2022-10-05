@@ -13,7 +13,6 @@ using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.Net.Http.Headers;
 using Microsoft.OpenApi.Models;
-using MySql.Data.MySqlClient;
 using RestWithAspNet5Udemy.BLL;
 using RestWithAspNet5Udemy.BLL.Interfaces;
 using RestWithAspNet5Udemy.Configurations;
@@ -94,14 +93,14 @@ namespace RestWithAspNet5Udemy
             services.AddControllers();
 
             //Add DataBase Connection (adicionando a conexão com o Banco de Dados)
-            var connection = Configuration["MySQLConnection:MySQLConnectionString"];
-            services.AddDbContext<MySQLContext>(options => options.UseMySql(connection));
+            var connection = Configuration["PostgreeConnection:PostgreeConnectionString"];
+            services.AddDbContext<PostgreSQLContext>(options => options.UseNpgsql(connection));
 
-            //// Execute a migration
-            //if (Environment.IsDevelopment())
-            //{
-            //    MigrateDatabase(connection);
-            //}
+            // Execute a migration
+            if (Environment.IsDevelopment())
+            {
+                MigrateDatabase(connection);
+            }
 
             //Implementation Content Negociation
             services.AddMvc(options =>
@@ -194,7 +193,7 @@ namespace RestWithAspNet5Udemy
         {
             try
             {
-                var evolveConnection = new MySqlConnection(connection);
+                var evolveConnection = new Npgsql.NpgsqlConnection(connection);
                 var evolve = new Evolve.Evolve(evolveConnection, msg => Log.Information(msg))
                 {
                     Locations = new List<string> { "Db/Migrations", "Db/DataSet" },

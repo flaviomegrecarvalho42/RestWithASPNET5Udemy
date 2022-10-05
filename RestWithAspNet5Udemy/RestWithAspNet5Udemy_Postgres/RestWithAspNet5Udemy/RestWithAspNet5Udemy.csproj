@@ -12,12 +12,23 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="Db\DataSet\V2__Populate_Table_Person.sql" />
+    <None Remove="Db\DataSet\V4__Insert_Data_In_Books.sql" />
+    <None Remove="Db\DataSet\V6__Insert_Data_In_Users.sql" />
+    <None Remove="Db\DataSet\V8__Insert_Data_In_Person.sql" />
+    <None Remove="Db\Migrations\V1__Create_Table_Person.sql" />
+    <None Remove="Db\Migrations\V3__Create_Table_Books.sql" />
+    <None Remove="Db\Migrations\V5__Create_Table_Users.sql" />
+    <None Remove="Db\Migrations\V7__Alter_Table_Person.sql" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Evolve" Version="2.4.0" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="3.1.8" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Formatters.Json" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning" Version="4.1.1" />
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.11.1" />
-    <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="3.2.0" />
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="5.0.0" />
     <PackageReference Include="Serilog" Version="2.10.0" />
     <PackageReference Include="Serilog.AspNetCore" Version="3.4.0" />
     <PackageReference Include="Serilog.Sinks.Console" Version="3.1.1" />
@@ -26,6 +37,7 @@
 
   <ItemGroup>
     <Folder Include="ci\" />
+    <Folder Include="Db\DataSet\" />
     <Folder Include="UploadFiles\" />
   </ItemGroup>
 

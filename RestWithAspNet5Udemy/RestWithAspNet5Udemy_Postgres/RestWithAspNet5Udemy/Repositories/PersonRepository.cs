@@ -9,7 +9,7 @@ namespace RestWithAspNet5Udemy.Repositories
 {
     public class PersonRepository : BaseRepository<Person>, IPersonRepository
     {
-        public PersonRepository(MySQLContext context) : base(context) { }
+        public PersonRepository(PostgreSQLContext context) : base(context) { }
 
         public Person Disable(long id)
         {
