@@ -8,6 +8,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="ci\**" />
+    <Content Remove="ci\**" />
+    <EmbeddedResource Remove="ci\**" />
+    <None Remove="ci\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Compile Remove="BLL\ServiceResponse.cs" />
   </ItemGroup>
 
@@ -20,6 +27,7 @@
     <None Remove="Db\Migrations\V3__Create_Table_Books.sql" />
     <None Remove="Db\Migrations\V5__Create_Table_Users.sql" />
     <None Remove="Db\Migrations\V7__Alter_Table_Person.sql" />
+    <None Remove="Dockerfile" />
   </ItemGroup>
 
   <ItemGroup>
@@ -36,9 +44,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="ci\" />
     <Folder Include="Db\DataSet\" />
     <Folder Include="UploadFiles\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="..\.dockerignore" />
   </ItemGroup>
 
 </Project>
