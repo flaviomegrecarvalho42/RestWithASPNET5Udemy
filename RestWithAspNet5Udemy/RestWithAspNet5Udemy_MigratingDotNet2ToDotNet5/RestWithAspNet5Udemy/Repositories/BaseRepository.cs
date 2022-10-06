@@ -33,9 +33,9 @@ namespace RestWithAspNet5Udemy.Repositories
 
                 return item;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                throw ex;
+                throw;
             }
         }
 
@@ -50,9 +50,9 @@ namespace RestWithAspNet5Udemy.Repositories
                     _context.SaveChanges();
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                throw ex;
+                throw;
             }
         }
 
@@ -73,7 +73,7 @@ namespace RestWithAspNet5Udemy.Repositories
 
         public List<T> FindWithPagedSearch(string query)
         {
-            return dataset.FromSql<T>(query).ToList();
+            return dataset.FromSqlRaw<T>(query).ToList();
         }
         
         public int GetCount(string query)
@@ -110,9 +110,9 @@ namespace RestWithAspNet5Udemy.Repositories
                     _context.Entry(result).CurrentValues.SetValues(item);
                     _context.SaveChanges();
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
-                    throw ex;
+                    throw;
                 }
             }
 

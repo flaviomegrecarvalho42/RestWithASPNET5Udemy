@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using RestWithAspNet5Udemy.BLL.Interfaces;
-using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace RestWithAspNet5Udemy.Controllers
 {
@@ -20,10 +19,10 @@ namespace RestWithAspNet5Udemy.Controllers
         }
 
         [HttpGet]
-        [SwaggerResponse(StatusCodes.Status200OK, Type = typeof(byte[]))]
-        [SwaggerResponse(StatusCodes.Status204NoContent)]
-        [SwaggerResponse(StatusCodes.Status400BadRequest)]
-        [SwaggerResponse(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(byte[]))]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public IActionResult GetPDFFile()
         {
             byte[] buffer = _fileBll.GetPDFFile();

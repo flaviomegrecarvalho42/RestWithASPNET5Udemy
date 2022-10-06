@@ -67,7 +67,7 @@ namespace RestWithAspNet5Udemy.BLL
 
             int totalResults = _repository.GetCount(countQuery);
 
-            return new PagedSearchDTO<PersonDto>
+            return new PagedSearchDto<PersonDto>
             {
                 CurrentPage = page + 1,
                 List = _mapper.ParseList(persons),

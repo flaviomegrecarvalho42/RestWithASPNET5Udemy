@@ -5,7 +5,6 @@ using Microsoft.Extensions.Logging;
 using RestWithAspNet5Udemy.BLL.Interfaces;
 using RestWithAspNet5Udemy.Data.DTO;
 using RestWithAspNet5Udemy.Hypermedia.Filters;
-using Swashbuckle.AspNetCore.SwaggerGen;
 using System.Collections.Generic;
 
 namespace RestWithAspNet5Udemy.Controllers
@@ -16,12 +15,10 @@ namespace RestWithAspNet5Udemy.Controllers
     [Route("api/[controller]/v{version:apiVersion}")]
     public class PersonController : ControllerBase
     {
-        private readonly ILogger<PersonController> _logger;
         private readonly IPersonBLL _personBll;
 
-        public PersonController(ILogger<PersonController> logger, IPersonBLL personBll)
+        public PersonController(IPersonBLL personBll)
         {
-            _logger = logger;
             _personBll = personBll;
         }
 
@@ -31,10 +28,10 @@ namespace RestWithAspNet5Udemy.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        [SwaggerResponse(StatusCodes.Status200OK, Type = typeof(List<PersonDto>))]
-        [SwaggerResponse(StatusCodes.Status204NoContent)]
-        [SwaggerResponse(StatusCodes.Status400BadRequest)]
-        [SwaggerResponse(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<PersonDto>))]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [TypeFilter(typeof(HyperMediaFilter))]
         public IActionResult Get()
         {
@@ -49,10 +46,10 @@ namespace RestWithAspNet5Udemy.Controllers
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpGet("{id}")]
-        [SwaggerResponse(StatusCodes.Status200OK, Type = typeof(PersonDto))]
-        [SwaggerResponse(StatusCodes.Status204NoContent)]
-        [SwaggerResponse(StatusCodes.Status400BadRequest)]
-        [SwaggerResponse(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(PersonDto))]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [TypeFilter(typeof(HyperMediaFilter))]
         public IActionResult GetById(long id)
         {
@@ -72,10 +69,10 @@ namespace RestWithAspNet5Udemy.Controllers
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpGet("byName")]
-        [SwaggerResponse(StatusCodes.Status200OK, Type = typeof(PersonDto))]
-        [SwaggerResponse(StatusCodes.Status204NoContent)]
-        [SwaggerResponse(StatusCodes.Status400BadRequest)]
-        [SwaggerResponse(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(PersonDto))]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [TypeFilter(typeof(HyperMediaFilter))]
         public IActionResult GetByName([FromQuery] string firstName, string lastName)
         {
@@ -93,10 +90,10 @@ namespace RestWithAspNet5Udemy.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet("{sortDirection}/{pageSize}/{page}")]
-        [SwaggerResponse(StatusCodes.Status200OK, Type = typeof(List<PersonDto>))]
-        [SwaggerResponse(StatusCodes.Status204NoContent)]
-        [SwaggerResponse(StatusCodes.Status400BadRequest)]
-        [SwaggerResponse(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<PersonDto>))]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [TypeFilter(typeof(HyperMediaFilter))]
         public IActionResult GetWithPagedSearch([FromQuery] string name,
                                                             string sortDirection,
@@ -113,9 +110,9 @@ namespace RestWithAspNet5Udemy.Controllers
         /// <param name="person"></param>
         /// <returns></returns>
         [HttpPost]
-        [SwaggerResponse(StatusCodes.Status201Created, Type = typeof(PersonDto))]
-        [SwaggerResponse(StatusCodes.Status400BadRequest)]
-        [SwaggerResponse(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(PersonDto))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [TypeFilter(typeof(HyperMediaFilter))]
         public IActionResult Post([FromBody] PersonDto personDto)
         {
@@ -132,9 +129,9 @@ namespace RestWithAspNet5Udemy.Controllers
         /// <param name="person"></param>
         /// <returns></returns>
         [HttpPut]
-        [SwaggerResponse(StatusCodes.Status200OK, Type = typeof(PersonDto))]
-        [SwaggerResponse(StatusCodes.Status400BadRequest)]
-        [SwaggerResponse(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(PersonDto))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [TypeFilter(typeof(HyperMediaFilter))]
         public IActionResult Put([FromBody] PersonDto personDto)
         {
@@ -152,10 +149,10 @@ namespace RestWithAspNet5Udemy.Controllers
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpPatch("{id}")]
-        [SwaggerResponse(StatusCodes.Status200OK, Type = typeof(PersonDto))]
-        [SwaggerResponse(StatusCodes.Status204NoContent)]
-        [SwaggerResponse(StatusCodes.Status400BadRequest)]
-        [SwaggerResponse(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(PersonDto))]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [TypeFilter(typeof(HyperMediaFilter))]
         public IActionResult Patch(PersonDto personDto)
         {
@@ -177,9 +174,9 @@ namespace RestWithAspNet5Udemy.Controllers
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpDelete ("{id}")]
-        [SwaggerResponse(StatusCodes.Status204NoContent)]
-        [SwaggerResponse(StatusCodes.Status400BadRequest)]
-        [SwaggerResponse(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public IActionResult Delete(long id)
         {
             _personBll.Delete(id);

@@ -5,7 +5,6 @@ using Microsoft.Extensions.Logging;
 using RestWithAspNet5Udemy.BLL.Interfaces;
 using RestWithAspNet5Udemy.Data.DTO;
 using RestWithAspNet5Udemy.Hypermedia.Filters;
-using Swashbuckle.AspNetCore.SwaggerGen;
 using System.Collections.Generic;
 
 namespace RestWithAspNet5Udemy.Controllers
@@ -16,12 +15,10 @@ namespace RestWithAspNet5Udemy.Controllers
     [Route("api/[controller]/v{version:apiVersion}")]
     public class BookController : ControllerBase
     {
-        private readonly ILogger<PersonController> _logger;
         private readonly IBookBLL _bookBll;
 
-        public BookController(ILogger<PersonController> logger, IBookBLL bookBll)
+        public BookController(IBookBLL bookBll)
         {
-            _logger = logger;
             _bookBll = bookBll;
         }
 
@@ -31,10 +28,10 @@ namespace RestWithAspNet5Udemy.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        [SwaggerResponse(StatusCodes.Status200OK, Type = typeof(List<BookDto>))]
-        [SwaggerResponse(StatusCodes.Status204NoContent)]
-        [SwaggerResponse(StatusCodes.Status400BadRequest)]
-        [SwaggerResponse(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<BookDto>))]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [TypeFilter(typeof(HyperMediaFilter))]
         public IActionResult Get()
         {
@@ -49,10 +46,10 @@ namespace RestWithAspNet5Udemy.Controllers
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpGet("{id}")]
-        [SwaggerResponse(StatusCodes.Status200OK, Type = typeof(BookDto))]
-        [SwaggerResponse(StatusCodes.Status204NoContent)]
-        [SwaggerResponse(StatusCodes.Status400BadRequest)]
-        [SwaggerResponse(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(BookDto))]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [TypeFilter(typeof(HyperMediaFilter))]
         public IActionResult GetById(long id)
         {
@@ -71,9 +68,9 @@ namespace RestWithAspNet5Udemy.Controllers
         /// <param name="book"></param>
         /// <returns></returns>
         [HttpPost]
-        [SwaggerResponse(StatusCodes.Status201Created, Type = typeof(BookDto))]
-        [SwaggerResponse(StatusCodes.Status400BadRequest)]
-        [SwaggerResponse(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(BookDto))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [TypeFilter(typeof(HyperMediaFilter))]
         public IActionResult Post([FromBody] BookDto bookDto)
         {
@@ -90,9 +87,9 @@ namespace RestWithAspNet5Udemy.Controllers
         /// <param name="book"></param>
         /// <returns></returns>
         [HttpPut]
-        [SwaggerResponse(StatusCodes.Status201Created, Type = typeof(BookDto))]
-        [SwaggerResponse(StatusCodes.Status400BadRequest)]
-        [SwaggerResponse(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(BookDto))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [TypeFilter(typeof(HyperMediaFilter))]
         public IActionResult Put([FromBody] BookDto bookDto)
         {
@@ -109,9 +106,9 @@ namespace RestWithAspNet5Udemy.Controllers
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpDelete ("{id}")]
-        [SwaggerResponse(StatusCodes.Status204NoContent)]
-        [SwaggerResponse(StatusCodes.Status400BadRequest)]
-        [SwaggerResponse(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public IActionResult Delete(long id)
         {
             _bookBll.Delete(id);

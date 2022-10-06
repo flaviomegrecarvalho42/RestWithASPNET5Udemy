@@ -7,7 +7,7 @@ namespace RestWithAspNet5Udemy.Data.DTO
 {
     public class BookDto : ISupportHyperMedia
     {
-        public long? Id { get; set; }
+        public long Id { get; set; }
         public string Title { get; set; }
         public string Author { get; set; }
         public decimal Price { get; set; }
