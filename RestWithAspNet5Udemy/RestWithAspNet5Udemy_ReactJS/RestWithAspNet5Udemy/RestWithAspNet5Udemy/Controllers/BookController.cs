@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using RestWithAspNet5Udemy.BLL.Interfaces;
 using RestWithAspNet5Udemy.Data.DTO;
 using RestWithAspNet5Udemy.Hypermedia.Filters;
@@ -14,10 +15,12 @@ namespace RestWithAspNet5Udemy.Controllers
     [Route("api/[controller]/v{version:apiVersion}")]
     public class BookController : ControllerBase
     {
+        private readonly ILogger<PersonController> _logger;
         private readonly IBookBLL _bookBll;
 
-        public BookController(IBookBLL bookBll)
+        public BookController(ILogger<PersonController> logger, IBookBLL bookBll)
         {
+            _logger = logger;
             _bookBll = bookBll;
         }
 
@@ -60,8 +63,9 @@ namespace RestWithAspNet5Udemy.Controllers
             return Ok(person);
         }
 
+
         /// <summary>
-        /// Maps GET requests to https://localhost:{port}/api/book
+        /// Maps GET requests to https://localhost:{port}/api/person
         /// Get no parameters for FindAll -> Search All
         /// </summary>
         /// <returns></returns>
@@ -71,12 +75,12 @@ namespace RestWithAspNet5Udemy.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [TypeFilter(typeof(HyperMediaFilter))]
-        public IActionResult GetWithPagedSearch([FromQuery] string title,
+        public IActionResult GetWithPagedSearch([FromQuery] string name,
                                                             string sortDirection,
                                                             int pageSize,
                                                             int page)
         {
-            return Ok(_bookBll.FindWithPagedSearch(title, sortDirection, pageSize, page));
+            return Ok(_bookBll.FindWithPagedSearch(name, sortDirection, pageSize, page));
         }
 
         /// <summary>
